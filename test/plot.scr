@@ -3,15 +3,19 @@ set terminal pdf
 load 'legend.gp' 
 set pointsize 0.500000
 set xlabel 'Time(Units)'
-set title "x1"
+set title "Poblacion"
 load '0001.gp' 
-set title "x2"
+set title "Minas"
 load '0002.gp' 
-set title "x3"
+set title "Ingresos"
 load '0003.gp' 
-set title "x4"
+set title "Deudas"
 load '0004.gp' 
-set title "x5"
+set title "Presupuesto"
 load '0005.gp' 
+set title "PBIpc"
+load '0006.gp' 
+set title "DEUpc"
+load '0007.gp' 
 print 'File output1.pdf created!' 
 exit

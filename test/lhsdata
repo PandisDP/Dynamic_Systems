@@ -1,2 +1,12 @@
-1
-mu	0.001	0.001 	0.02	U
+11
+tasadenacimientos	0.0149	0.0186 	0.0546	U
+tasademuertejovenes	0.0073	0.0093 	0.0095	U
+tasademuerteadultos	0.002	0.00213 	0.003	U
+tasadenuevasminas	10	20 	50	U
+tasacierreminas	20	40 	60	U
+inicioclosemina	30	50 	70	U
+numberofclosemine	3	5 	10	U
+numerodenuevasminas	3	5 	10	U
+cobreproducido	100	400 	600	U
+preciocobre	9000	10000 	12000	U
+presupuestoporpersona	100	400 	700	U
