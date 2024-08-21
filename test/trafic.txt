@@ -11,16 +11,19 @@ flow_up= 20 15 25 50 $U;
 flow_down= 20 15 25 50 $U;
 percentage_minimum_dist= 0.2 0.1 0.20 0.25 0.5 $U;
 
+w1 =0;
+$Equations
+variable1 = w1;
+variable2 = w1;
+
 $StartTime 0.0                 // Simulation initial time
 $StopTime  8	       // Simulation stop time
 $timestep  0.0001	       // Timestep, usuallyy between 0.1 and 0.0001	
 $timefigs  0.1		       // To save data for figures 
  
-//$plot Infectados Susceptibles Recuperados;
-
 //$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
 //$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
-//$Method $Rk4			   // Four Order Runge-Kutta 
+$Method $Rk4			   // Four Order Runge-Kutta 
 //$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
 
 $lhs 100 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
