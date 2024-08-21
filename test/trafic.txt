@@ -9,7 +9,7 @@ flow_left= 10 5 15 20 $U;
 flow_right= 10 5 15 20 $U;
 flow_up= 20 15 25 50 $U;
 flow_down= 20 15 25 50 $U;
-percentage_minimum_dist= 0.2 0.1 0.20 0.25 0.5 $U;
+percentage_minimum_dist= 0.2 0.1 0.25 0.5 $U;
 
 w1 =0;
 $Equations
