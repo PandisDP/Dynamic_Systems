@@ -1,0 +1,57 @@
+
+// Poblational Project with Covid Impact
+$Initial_conditions
+
+Jovenes=900000;
+Adultos=500000;
+Ancianos=100000;
+
+tasa_de_nacimientos=0.018 0.010 0.018 0.036 $U;
+tasa_de_mortalidad_jovenes=0.02 0.01 0.02 0.040 $U;
+tasa_de_mortalidad_adultos=0.005 0.003 0.005 0.01 $U;
+tasa_de_mortalidad_covid_jovenes=0.0002 0.0001 0.0002 0.0004 $U;
+tasa_de_mortalidad_covid_adultos=0.0004 0.0002 0.0004 0.0008 $U;
+tasa_de_mortalidad_covid_viejos=0.0008 0.0004 0.0004 0.0016 $U;
+
+periodo_madurez=20;
+periodo_adultez=50;
+periodo_final=10;
+
+$Equations
+
+Nacimientos = Adultos*tasa_de_nacimientos;
+Madurez = Jovenes/periodo_madurez;
+Muerte_Jovenes= Jovenes*tasa_de_mortalidad_jovenes;
+Covid_Young= Jovenes*tasa_de_mortalidad_covid_jovenes;
+
+Muerte_Adultos= Adultos*tasa_de_mortalidad_adultos;
+Vejez= Adultos/periodo_adultez;
+Covid_Adultos= Adultos*tasa_de_mortalidad_covid_adultos;
+
+Muerte_Natural= Ancianos/periodo_final;
+Covid_Old= Ancianos*tasa_de_mortalidad_covid_viejos;
+
+
+Jovenes' = Nacimientos- Madurez-Muerte_Jovenes-Covid_Young;
+Adultos'= Madurez- Muerte_Adultos-Covid_Adultos-Vejez;
+Ancianos' = Vejez-Muerte_Natural-Covid_Old;
+Poblacion = Jovenes + Adultos + Ancianos;
+
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  200		       // Simulation stop time
+$timestep  0.1	       // Time step, usuallyy between 0.1 and 0.0001	
+$timefigs  0.1		       // To save data for figures 
+ 
+$plot  Jovenes Adultos Ancianos Poblacion;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+
+$lhs 20 tasa_de_nacimientos tasa_de_mortalidad_jovenes tasa_de_mortalidad_adultos
+tasa_de_mortalidad_covid_jovenes tasa_de_mortalidad_covid_adultos tasa_de_mortalidad_covid_viejos; 
+
+$seed $clock; 
+

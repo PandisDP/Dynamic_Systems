@@ -1,0 +1,1 @@
+gcc -I../src/ $1 ../src/my_rkck.c ../src/my_rkqs.c ../src/my_odeint.c ../src/nrutil.c ../src/my_rk4.c   ../src/my_mmid.c ../src/my_pzextr.c ../src/my_rzextr.c ../src/my_stiff.c ../src/my_lubksb.c ../src/my_ludcmp.c ../src/plots.c ../src/my_jacobn.c ../src/my_stifbs.c ../src/my_simpr.c  -o ./run1 -lm -g

@@ -1,0 +1,28 @@
+// Stiff equations
+
+$Initial_Conditions
+yy1 = 1.0;
+yy2 = 1.0;
+yy3 = 0.0;
+
+$Equations
+yy1' =  -0.013*yy1-1000.0*yy1*yy3;
+yy2' = -2500.0*yy2*yy3;
+yy3' = -0.013*yy1-1000.0*yy1*yy3-2500.0*yy2*yy3;
+
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  50.0	       // Simulation stop time
+$timestep  0.001		       // Timestep, usually between 0.1 and 0.0001	  
+$timefigs  0.0001		       // To save data for figures 
+ 
+$plot yy1 yy2 yy3;
+
+// Different methods, choose just one: 
+ 
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPoly		   // Bulirsch-Stoer Polynomial Extrapolation
+//$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+$Method $StiffRosenbrock         // fourth-order Rosenbrock, you need to write the Jacobian function.
+//$Method $StiffBSStep

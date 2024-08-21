@@ -1,0 +1,69 @@
+$Initial_conditions
+
+Jovenes=8.80615e+06; // Cantidad de jovenes al inicio 
+Adultos=2.27175e+07; // Cantidad de adultos al inicio
+Ancianos=2.99434e+06; // Cantidad de ancianos al inicio
+Minas= 63; // Numero de minas operativas
+Ingresos= 16961e+06; // Ingresos de las minas como PBI en dólares
+Presupuesto= 7600e+06; // Presupuesto poblacional
+Deudas = 0; // Deuda
+tasadenacimientos=0.031 0.0149 0.0186 0.0546 $U; // Tasa de Nacimientos
+tasademuertejovenes=0.0095 0.0073 0.0093 0.0095 $U; // Tasa de Mortalidad de Jovenes
+periodomadurez=15; // Periodo de para que un joven pase a la edad adulta
+tasademuerteadultos= 0.003 0.002 0.00213 0.003 $U; // Tasa de mortalidad de Adultos
+periodmadurez=50;  // Periodo para que un adulto pasa a la vejez
+periodofinal=15;  //Periodo final de un ser humano
+tasadenuevasminas=20 10 20 50 $U; // Tasa de nuevas minas en años
+tasacierreminas=40 20 40 60 $U;  // Tasa de cierre de minas en años
+inicioclosemina=60 30 50 70 $U; // Inicio de cierre de minas desde el periodo inicial
+numberofclosemine=10 3 5 10 $U; // Cantidad de minas a cerrar 
+numerodenuevasminas=2 3 5 10 $U; // Cantidad de minas abrir
+cobreproducido= 400 100 400 600 $U; // Producción de Cobre Miles de toneladas
+preciocobre= 9840 9000 10000 12000 $U;// Precio de Cobre USD/TN
+presupuestoporpersona= 400 100 400 700 $U;// Presupuesto por persona
+$Equations
+//1.0 Poblacion
+Nacimientos = Adultos*tasadenacimientos;
+Madurez = Jovenes/periodomadurez;
+MuerteJovenes= Jovenes*tasademuertejovenes;
+MuerteAdultos= Adultos*tasademuerteadultos;
+Vejez= Adultos/periodmadurez;
+MuerteNatural= Ancianos/periodofinal;
+// 2.0 Economia
+MinasNuevas= (fmod(TimeAct,tasadenuevasminas)==0.0)?numerodenuevasminas:0.0;
+//3.0 Cierre de Minas efecto
+param1= (fmod(TimeAct,tasacierreminas)==0.0)?1.0:0.0;
+param2= (Minas > 0)?1.0:0.0;
+param3= (TimeAct >(inicioclosemina))?numberofclosemine:0.0;
+CierreMinas = param1*param2*param3;
+//4.0 Stokcs
+Jovenes' = Nacimientos-Madurez-MuerteJovenes;
+Adultos'= Madurez-MuerteAdultos-Vejez;
+Ancianos' = Vejez-MuerteNatural;
+Poblacion= Jovenes + Adultos + Ancianos;
+
+Minas'= MinasNuevas-CierreMinas;
+Presupuesto= Poblacion*presupuestoporpersona;
+deltaingresos= cobreproducido*preciocobre*1000*Minas*0.07-Presupuesto;
+deltadeudas= (deltaingresos<0)?-deltaingresos:0;
+Ingresos'= deltaingresos;
+Deudas'= deltadeudas;
+PBIpc= (Ingresos>0)?Ingresos/Poblacion:0;
+DEUpc =(Deudas>0)?Deudas/Poblacion:0;
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  200		       // Simulation stop time
+$timestep  1	               // Time step, usually between 0.1 and 0.0001	
+$timefigs  1		       // To save data for figures 
+ 
+$plot  Poblacion Minas Ingresos Deudas Presupuesto PBIpc DEUpc;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+
+$lhs 50 tasadenacimientos tasademuertejovenes tasademuerteadultos tasadenuevasminas tasacierreminas inicioclosemina numberofclosemine numerodenuevasminas cobreproducido preciocobre presupuestoporpersona; 
+
+$seed $clock; 
+

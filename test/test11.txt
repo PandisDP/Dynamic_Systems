@@ -1,0 +1,42 @@
+
+$Initial_conditions
+
+x1=-0.45;
+x2=0.8;
+x3=0.0;
+x4=-0.8;
+x5=-0.45;
+x6= 0.58; /* initial values */
+
+/* ODE specification: rtbp */
+
+mu=0.01025 0.001 0.001 0.02 $U;
+$Equations 
+umu=1-mu;
+r2=x1*x1+x2*x2+x3*x3;
+rpe2=r2-2*mu*x1+mu*mu;
+rpe3i=pow(rpe2,(-3./2));
+rpm2=r2+2*(1-mu)*x1+(1-mu)*(1-mu);
+rpm3i=pow(rpm2,(-3./2));
+
+x1'= x4+x2;
+x2'= x5-x1;
+x3'= x6;
+x4'= x5-(x1-mu)*(umu*rpe3i)-(x1+umu)*(mu*rpm3i);
+x5'=-x4-x2*(umu*rpe3i+mu*rpm3i);
+x6'=-x3*(umu*rpe3i+mu*rpm3i);
+
+$StartTime 0
+$StopTime  40
+$timestep  0.00001
+$timefigs  0.1
+$plot x1 x2 x3 x4 x5;
+
+//$Method $BSStepRational
+//$Method $BSStepPoly
+$Method $Rk4
+//$Method $AdaptiveRk4 
+//$Method $StiffRosenbrock
+//$Method $StiffBSStep
+$lhs 5 mu; 
+$seed $clock

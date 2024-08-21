@@ -1,0 +1,53 @@
+$Initial_conditions
+
+Jovenes=400000;
+Adultos=500000;
+Ancianos=100000;
+
+tasanj=0.018;
+tasamj=0.025;
+tasacovidy=0.0002;
+periodm=20;
+
+tasama=0.005;
+tasacovidad=0.0002;
+periodv=50;
+
+
+periodf=10;
+tasacovidold=0.001;
+
+   
+$Equations
+
+Nacimientos = Adultos*tasanj;
+Madurez = Jovenes/periodm;
+Muerte_Jovenes= Jovenes*tasamj;
+Covid_Young= Jovenes*tasacovidy;
+
+Muerte_Adultos= Adultos*tasama;
+Vejez= Adultos/periodv;
+Covid_Adultos= Adultos*tasacovidad;
+
+Muerte_Natural= Ancianos/periodf;
+Covid_Old= Ancianos*tasacovidold;
+
+
+Jovenes' = Nacimientos-Madurez-Muerte_Jovenes-Covid_Young;
+Adultos'= Madurez-Muerte_Adultos-Covid_Adultos-Vejez;
+Ancianos' = Vejez-Muerte_Natural-Covid_Old;
+Poblacion= Jovenes + Adultos + Ancianos;
+
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  100		       // Simulation stop time
+$timestep  0.1	       // Time step, usuallyy between 0.1 and 0.0001	
+$timefigs  0.1		       // To save data for figures 
+ 
+$plot  Jovenes Adultos Ancianos Poblacion;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+

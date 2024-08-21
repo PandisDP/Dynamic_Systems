@@ -1,0 +1,28 @@
+#!/bin/csh
+if (-e /usr/local/intode) then
+   echo "Installing .."
+else
+   echo "Creating directories and installing .. "
+   mkdir /usr/local/intode
+   mkdir /usr/local/intode/src
+   mkdir /usr/local/intode/test
+  
+endif
+  cp -rf teval1 /usr/local/bin
+  cp -rf prcc /usr/local/bin
+  cp -rf crun /usr/local/bin
+  cp -rf icrun /usr/local/bin
+  cp -rf crun /usr/local/intode
+  cp -rf icrun /usr/local/intode
+  cp -rf build /usr/local/intode
+  cp -rf install /usr/local/intode
+  cp -rf README.TXT /usr/local/intode
+  chmod oug+rwx /usr/local/bin/teval1
+  chmod oug+rwx /usr/local/bin/prcc
+  chmod oug+rwx /usr/local/bin/crun
+  chmod oug+rwx /usr/local/bin/icrun
+  rm -rf /usr/local/intode/src/*
+  rm -rf /usr/local/intode/test/*
+  cp -rf src/* /usr/local/intode/src
+  cp -rf test/* /usr/local/intode/test
+echo "End of installation ."

@@ -1,0 +1,54 @@
+
+  temp1 << "\t int i,j; " << endl;
+  temp1 << "\t double h, x=1.0, *y, *dydx, *yout, *C, *AUX; " << endl; 
+  temp1 << "\t int nfigs = " << nfigs << ";" <<endl;
+  temp1 << "\t eqfig figdata["<<nfigs+1<<"];" << endl;
+  temp1 << "\t float **FIGS; " << endl;
+  temp1 << "\t int maxloop =0, nloop =0; " << endl;
+  temp1 << "\t y    =  (double *)dvector(1,N);  " << endl;
+  temp1 << "\t dydx =  (double *)dvector(1,N); " << endl;
+  temp1 << "\t yout =  (double *)dvector(1,N);  " << endl;
+  temp1 << "\t C   =   (double *)dvector(1,NINC); " << endl;
+  temp1 << "\t AUX =   (double *)dvector(1,N); " <<endl;
+  int nrowsfigs= (int)((xtot-xfromt)/xtimefigs)+1;
+  temp1 << "\t FIGS =  (float **)matrix(0,nfigs,0," << nrowsfigs << ");" << endl;	
+  temp1 << "\t for(i=1;i<=nfigs;i++) { figdata[i].max = -99999999.9999; figdata[i].min=-figdata[i].max; }; " << endl;
+  for (i=1;i<=nfigs; i++)
+	 temp1 << "\t  strcpy(figdata[" << i << "].name," << (char)34 << st[tfigs[i]].name << (char)34 << ");" << endl; 
+  temp1 << "\t load_constants(C); " << endl;
+  temp1 << "\t load_auxlevel(AUX,y,C); " << endl;  
+  temp1 << "\t /* ---rk4--- */ " << endl;
+  temp1 << "\t h = (double)" << xtimestep<< ";"  << endl;
+  temp1 << "\t x = (double)" << xfromt << "; " << endl;
+  temp1 << "\t maxloop = (int) (" << xtot << "/h);" << endl;
+  temp1 << "\t nloop = " << xfromt << "; " << endl;
+  temp1 << "\t j=1; "<< endl;
+  temp1 << "\t while(nloop <= maxloop) {" << endl;
+  temp1 << "\t\t derivs(x,y,dydx,C, AUX); " << endl;  
+  temp1 << "\t\t rk4(y,dydx,N,x,h,yout,derivs, C, AUX); " <<endl;
+  temp1 << "\t\t y = yout; " << endl;
+  temp1 << "\t\t if (nloop % (int)ceil("<<xtimefigs << "/h) == 0) {" << endl;
+  temp1 << "\t\t  FIGS[0][j] = x; " << endl;
+  for (i = 1; i<=nfigs; i++) 
+	 {
+		temp1 << "\t\t  FIGS["<<i<<"][j] = (float)"<< st[tfigs[i]].eqname << ";" << endl; 
+		temp1 << "\t\t  if (figdata["<<i<<"].max < FIGS["<<i<<"][j]) { figdata["<<i<<"].max =  FIGS["<<i<<"][j]; } "<< endl;
+		temp1 << "\t\t  if (figdata["<<i<<"].min > FIGS["<<i<<"][j]) { figdata["<<i<<"].min =  FIGS["<<i<<"][j]; } "<< endl;
+	 }
+  temp1 << "\t\t\t j++; }  " << endl;
+  temp1 << "\t\t x = x + h;" << endl;
+  temp1 << "\t\t nloop++; " << endl;
+  temp1 << "\t }  " << endl;
+  temp1 << "\tfor(i=1; i<="<<nrowsfigs<<"; i++) { " << endl;
+  temp1 << "\t\t printf("<< (char)34 <<" %f   "<< (char)34 << ",FIGS[0][i]);" << endl;
+  temp1 << "\t\t for(j=1; j<=nfigs; j++) printf(" << (char)34 << "%f \\t" << (char)34 << ",FIGS[j][i]); " << endl;
+  temp1 << "\t printf("<<(char)34<<"\\"<< "n" << (char)34 << "); }; " << endl;
+  temp1 << "\t WritePlotScript(1, nfigs, " <<nrowsfigs<<", figdata);" << endl;
+  temp1 << "\t free_dvector(yout,1,N); " << endl;
+  temp1 << "\t free_dvector(dydx,1,N); " << endl;
+  temp1 << "\t free_dvector(y,1,N); " << endl;
+  temp1 << "\t free_dvector(C,1,NINC); " << endl; 
+  temp1 << "\t free_dvector(AUX,1,N); " << endl;
+  temp1 << "\t free_matrix(FIGS,0,nfigs,0," << nrowsfigs << ");" << endl;
+  temp1 << "\t system(" << char(34) << "gnuplot plot.scr &" << char(34) << "); " << endl;  
+

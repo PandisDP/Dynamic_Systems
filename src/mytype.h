@@ -1,0 +1,1 @@
+#define MYdouble long double

@@ -1,0 +1,39 @@
+#!/bin/csh
+if ($#argv != 1 ) then
+  echo "Error: $0 requires an argument, the name of the file. "
+  exit 1
+endif
+unalias rm
+set DIRSRC="/usr/local/intode/src/"
+if (-e temp1.c) then
+    rm -f temp1.c  
+endif 
+if (-e run1 ) then
+    rm -f  run1
+endif
+if {(teval1 < $1) } then
+   #echo "temp1.c generated." 
+else
+   echo "Error creating temp1.c"
+   rm -f temp1.c
+   exit 1
+endif
+if (-e temp1.c) then
+   echo "Compiling .."
+   icc -I$DIRSRC ./temp1.c $DIRSRC/my_rkck.c $DIRSRC/my_rkqs.c $DIRSRC/my_odeint.c $DIRSRC/nrutil.c $DIRSRC/my_rk4.c $DIRSRC/my_bsstep.c $DIRSRC/my_bsstep_rz.c $DIRSRC/my_mmid.c $DIRSRC/my_pzextr.c $DIRSRC/my_rzextr.c $DIRSRC/my_lubksb.c $DIRSRC/my_ludcmp.c $DIRSRC/my_stiff.c $DIRSRC/my_jacobn.c  $DIRSRC/my_simpr.c $DIRSRC/my_stifbs.c $DIRSRC/plots.c -o ./run1 -lm 
+else
+   echo "Error creating temp1.c " 
+   exit 1
+endif
+echo "Running .."
+if (-e run1) then
+  if {( ./run1 )} then
+    echo "OK."
+  else
+    echo "Error running the program, please check the timestep, equations, or parameters.".
+  endif
+endif
+alias rm rm -i
+
+
+

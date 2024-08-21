@@ -1,0 +1,71 @@
+$Initial_conditions
+
+Jovenes=8.80615e+06; // Cantidad de jovenes al inicio 
+Adultos=2.27175e+07; // Cantidad de adultos al inicio
+Ancianos=2.99434e+06; // Cantidad de ancianos al inicio
+Minas= 63; // Numero de minas operativas
+IngresosMineria= 62759; // Ingresos de las minas como PBI en millones de dólares
+
+tasadenacimientos=0.031 0.0149 0.0186 0.0546 $U; // Tasa de Nacimientos
+tasademuertejovenes=0.0095 0.0073 0.0093 0.0095 $U; // Tasa de Mortalidad de Jovenes
+periodomadurez=15; // Periodo de para que un joven pase a la edad adulta
+tasademuerteadultos= 0.003 0.002 0.00213 0.003 $U; // Tasa de mortalidad de Adultos
+periodmadurez=50;  // Periodo para que un adulto pasa a la vejez
+periodofinal=15;  //Periodo final de un ser humano
+
+tasadenuevasminas=10 5 10 12 $U; // Tasa de nuevas minas en años
+tasacierreminas=30 20 30 35 $U;  // Tasa de cierre de minas en años
+inicioclosemina=60 50 60 80 $U; // Inicio de cierre de minas desde el periodo inicial
+numberofclosemine=10 5 10 15 $U; // Cantidad de minas a cerrar 
+
+fac_ingr_prob1=  0.024 -0.072 0.024 0.062 $U; // Factor de probabilidad por éxitos basado en porcentajedeminas
+fac_ingr_prob2= -0.01 -0.03 -0.01 0.01 $U;  // Factor de probabilidad de éxitos basado en porcentajedeminas
+porcentajedeminas= 0.6 0.5 0.7 0.8 $U; // porcentaje de minas donde el éxito cambia.
+numerodenuevasminas=1 1 2 3 $U; // Cantidad de minas abrir
+   
+$Equations
+//Poblacion
+Nacimientos = Adultos*tasadenacimientos;
+Madurez = Jovenes/periodomadurez;
+MuerteJovenes= Jovenes*tasademuertejovenes;
+MuerteAdultos= Adultos*tasademuerteadultos;
+Vejez= Adultos/periodmadurez;
+MuerteNatural= Ancianos/periodofinal;
+// Economia
+vartemp= TimeAct / (tasadenuevasminas);
+vartemp2= TimeAct / (tasacierreminas);
+//Inicio de Minas
+MinasNuevas= (vartemp*tasadenuevasminas-TimeAct==0.0)?1.0:0.0;
+factor_ingresosminas= (Minas/63 > porcentajedeminas)?fac_ingr_prob1*Minas/63:fac_ingr_prob2*Minas/63;
+//Cierre de Minas efecto
+param1= (vartemp2*tasacierreminas-TimeAct==0.0)?1.0:0.0;
+param2= (Minas > 0)?1.0:0.0;
+param3= (TimeAct >(inicioclosemina))?numberofclosemine:0.0;
+CierreMinas = param1*param2*param3;
+
+
+Jovenes' = Nacimientos-Madurez-MuerteJovenes;
+Adultos'= Madurez-MuerteAdultos-Vejez;
+Ancianos' = Vejez-MuerteNatural;
+Poblacion= Jovenes + Adultos + Ancianos;
+
+Minas'= MinasNuevas-CierreMinas;
+IngresosMineria'= IngresosMineria*factor_ingresosminas;
+PBIPC= IngresosMineria*1e+06/Poblacion/3.7;
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  200		       // Simulation stop time
+$timestep  0.1	               // Time step, usually between 0.1 and 0.0001	
+$timefigs  0.1		       // To save data for figures 
+ 
+$plot  Poblacion Minas IngresosMineria PBIPC;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+
+$lhs 20 tasadenacimientos tasademuertejovenes tasademuerteadultos tasadenuevasminas tasacierreminas inicioclosemina numberofclosemine fac_ingr_prob1 fac_ingr_prob2 porcentajedeminas numerodenuevasminas; 
+
+$seed $clock; 
+

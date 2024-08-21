@@ -1,0 +1,62 @@
+$Initial_conditions
+
+Jovenes=8.80615e+06;
+Adultos=2.27175e+07;
+Ancianos=2.99434e+06;
+Minas= 63;
+IngresosMineria= 62759;
+
+tasanj=0.031 0.0149 0.0186 0.0546 $U; 
+tasamj=0.0095 0.0073 0.0093 0.0095 $U;
+periodm=15; 
+tasama= 0.003 0.002 0.00213 0.003 $U; 
+periodv=50; 
+periodf=15; 
+
+tasanewminas=10 5 10 12 $U;
+tasacierreminas=30 20 30 35 $U; 
+inicioclosemina=60 50 60 80 $U;
+numberofclosemine=10 5 10 15 $U;
+
+fac_ingr_prob1= 0.024 -0.072 0.024 0.062 $U;
+fac_ingr_prob2= -0.01 -0.07 -0.01 0.01 $U;
+   
+$Equations
+
+Nacimientos = Adultos*tasanj;
+Madurez = Jovenes/periodm;
+Muerte_Jovenes= Jovenes*tasamj;
+Muerte_Adultos= Adultos*tasama;
+Vejez= Adultos/periodv;
+Muerte_Natural= Ancianos/periodf;
+vartemp= TimeAct / (tasanewminas);
+vartemp2= TimeAct / (tasacierreminas);
+MinasNuevas= (vartemp*tasanewminas-TimeAct==0.0)?1.0:0.0;
+factor_ingresosminas= (Minas/63 > 0.69)?fac_ingr_prob1*Minas/63:fac_ingr_prob2*Minas/63;
+param1= (vartemp2*tasacierreminas-TimeAct==0.0)?1.0:0.0;
+param2= (Minas > 0)?1.0:0.0;
+param3= (TimeAct >(inicioclosemina))?numberofclosemine:0.0;
+CierreMinas = param1*param2*param3;
+
+
+Jovenes' = Nacimientos-Madurez-Muerte_Jovenes;
+Adultos'= Madurez-Muerte_Adultos-Vejez;
+Ancianos' = Vejez-Muerte_Natural;
+Poblacion= Jovenes + Adultos + Ancianos;
+
+Minas'= MinasNuevas-CierreMinas;
+IngresosMineria'= IngresosMineria*factor_ingresosminas;
+PBI= IngresosMineria*1e+06/Poblacion/3.7;
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  200		       // Simulation stop time
+$timestep  0.1	       // Time step, usually between 0.1 and 0.0001	
+$timefigs  0.1		       // To save data for figures 
+ 
+$plot  Jovenes Adultos Ancianos Poblacion Minas IngresosMineria PBI;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+

@@ -1,0 +1,26 @@
+%% Stiff equation
+
+$Initial_Conditions
+u = 1;
+v = 0;
+
+$Equations
+
+u' = 998*u + 1998*v;
+v' = -999*u - 1999*v;
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  50.0	       // Simulation stop time
+$timestep  0.00001		       // Timestep, usually between 0.1 and 0.0001	  
+$timefigs  0.001		       // To save data for figures 
+ 
+$plot u v;
+
+// Different methods, choose just one: 
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPoly		   // Bulirsch-Stoer Polynomial Extrapolation
+//$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+$Method $StiffRosenbrock         // Stiff fourth-order Rosenbrock
+//$Method $StiffBSStep            //   Stiff BSStep

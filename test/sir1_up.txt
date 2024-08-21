@@ -1,0 +1,50 @@
+//  Modelo SIR
+
+$Initial_conditions
+
+// parametro = valor_defecto valor_minimo valor_medio valor_maximo $Distribucion ;
+// $U ==> Uniforme
+// $T ==> Triangular
+
+tasa_de_contagio=   0.001 0.0001 0.001 0.005 $U;
+tasa_de_curacion=   0.4   0.2    0.4   0.6 $U;
+tasa_de_exposicion= 0.05  0.02   0.05  0.08 $U;
+tasa_de_mortalidad= 0.1   0.01   0.1   0.3  $U;
+tasa_de_vacunacion= 0.5   0.2    0.5   0.7  $U;
+
+Susceptibles  = 900;
+Infectados = 100;
+Recuperados = 0;
+   
+$Equations
+   
+tension=(enferman/Susceptibles)*tasa_de_vacunacion;
+Total_poblacion=Infectados+Recuperados+Susceptibles; 
+   
+curan = Infectados*tasa_de_curacion;
+enferman = Susceptibles*tasa_de_contagio*Infectados;
+expuestos = Recuperados*tasa_de_exposicion;
+muertes = Infectados*tasa de mortalidad;
+vacunados = Susceptibles*tension;
+
+Susceptibles' = +expuestos-enferman-vacunados;
+Infectados' = +enferman-curan-muertes;
+Recuperados' = curan+vacunados-expuestos;
+
+$StartTime 0.0                 // Simulation initial time
+$StopTime  20		       // Simulation stop time
+$timestep  0.001	       // Timestep, usuallyy between 0.1 and 0.0001	
+$timefigs  0.1		       // To save data for figures 
+ 
+$plot Infectados Susceptibles Recuperados;
+
+//$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
+//$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+
+$lhs 10 tasa_de_contagio tasa_de_curacion tasa_de_exposicion tasa_de_mortalidad tasa_de_vacunacion; 
+
+$seed $clock; 
+
+

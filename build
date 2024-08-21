@@ -1,0 +1,17 @@
+#!/bin/csh
+cd src
+if (-e teval1) then
+  rm -f teval1
+endif
+flex++ f0.l
+g++ lex.yy.cc ran2.c -lm -O2 -o teval1 
+chmod oug+x teval1
+cp -f teval1 ..
+echo "Program teval1 created. "
+g++ my_prcc2.cc betai.c gammln.c betacf.c nrutil.c -lm -O2 -o prcc
+chmod oug+x prcc
+cp -f prcc ..
+echo "Program prcc created. "
+cd ..
+echo "Ok!"
+
