@@ -17,14 +17,16 @@ variable1 = w1;
 variable2 = w1;
 
 $StartTime 0.0                 // Simulation initial time
-$StopTime  8	       // Simulation stop time
-$timestep  0.0001	       // Timestep, usuallyy between 0.1 and 0.0001	
-$timefigs  0.1		       // To save data for figures 
+$StopTime  300	       // Simulation stop time
+$timestep  0.1	       // Timestep, usuallyy between 0.1 and 0.0001	
+$timefigs  1		       // To save data for figures 
  
+$plot variable1 variable2;
+
 //$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
 //$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
-//$Method $Rk4			   // Four Order Runge-Kutta 
-$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
+$Method $Rk4			   // Four Order Runge-Kutta 
+//$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
 
 $lhs 100 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
 
