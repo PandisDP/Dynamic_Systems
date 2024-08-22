@@ -29,7 +29,7 @@ $plot trucks_in queue_line_a queue_line_b;
 $Method $Rk4			   // Four Order Runge-Kutta 
 //$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
 
-$lhs 1000 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
+$lhs 100 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
 
 $seed $clock; 
 
