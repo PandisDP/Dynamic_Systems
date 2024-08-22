@@ -3,9 +3,11 @@ set terminal pdf
 load 'legend.gp' 
 set pointsize 0.500000
 set xlabel 'Time(Units)'
-set title "variable1"
+set title "trucks_in"
 load '0001.gp' 
-set title "variable2"
+set title "queue_line_a"
 load '0002.gp' 
+set title "queue_line_b"
+load '0003.gp' 
 print 'File output1.pdf created!' 
 exit
