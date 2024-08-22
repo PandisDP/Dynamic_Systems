@@ -2,14 +2,14 @@
 
 $Initial_conditions
 
-trucks_init=   10 5 25 45 $U;
-percentage_dis= 50 10 50 90 $U;
-distance_speed= 2 2 4 6 $U;
-flow_left= 10 5 15 20 $U;
-flow_right= 10 5 15 20 $U;
-flow_up= 20 15 25 50 $U;
-flow_down= 20 15 25 50 $U;
-percentage_minimum_dist= 0.2 0.1 0.25 0.5 $U;
+trucks_init=   10 5 10 15 $U;
+percentage_dis= 50 30 50 90 $U;
+distance_speed= 2 2 6 10 $U;
+flow_left= 10 10 50 100 $U;
+flow_right= 10 10 50 100 $U;
+flow_up= 20 20 75 150 $U;
+flow_down= 20 20 75 150 $U;
+percentage_minimum_dist= 0.1 0.1 0.3 0.5 $U;
 
 w1 =0;
 $Equations
@@ -29,7 +29,7 @@ $plot trucks_in queue_line_a queue_line_b;
 $Method $Rk4			   // Four Order Runge-Kutta 
 //$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
 
-$lhs 100 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
+$lhs 1000 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
 
 $seed $clock; 
 
