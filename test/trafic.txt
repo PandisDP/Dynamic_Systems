@@ -18,7 +18,7 @@ queue_line_a = w1;
 queue_line_b = w1;
 
 $StartTime 0.0          // Simulation initial time
-$StopTime  360	       // Simulation stop time
+$StopTime  3600	       // Simulation stop time
 $timestep  0.1	       // Timestep, usuallyy between 0.1 and 0.0001	
 $timefigs  1		       // To save data for figures 
  
@@ -29,7 +29,7 @@ $plot trucks_in queue_line_a queue_line_b;
 $Method $Rk4			   // Four Order Runge-Kutta 
 //$Method $AdaptiveRk4		   // Adaptive Runge-Kutta 
 
-$lhs 50 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
+$lhs 100 trucks_init percentage_dis distance_speed flow_left flow_right flow_up flow_down percentage_minimum_dist; 
 
 $seed $clock; 
 
