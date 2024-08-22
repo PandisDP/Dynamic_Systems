@@ -1,5 +1,5 @@
 set contour base 
-set xrange [0:350] 
+set xrange [0:3600] 
 set term postscript color  10 
 set output "contour.ps"
 set xlabel 'Time(Units)' 
