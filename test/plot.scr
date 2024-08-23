@@ -9,5 +9,7 @@ set title "queue_line_a"
 load '0002.gp' 
 set title "queue_line_b"
 load '0003.gp' 
+set title "flow_trucks"
+load '0004.gp' 
 print 'File output1.pdf created!' 
 exit
