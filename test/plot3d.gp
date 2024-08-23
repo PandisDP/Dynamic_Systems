@@ -14,4 +14,6 @@ set title "Frequency values of: queue_line_a"
 splot 'contour.0002' t '' w l
 set title "Frequency values of: queue_line_b"
 splot 'contour.0003' t '' w l
+set title "Frequency values of: flow_trucks"
+splot 'contour.0004' t '' w l
 exit

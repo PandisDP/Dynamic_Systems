@@ -7,4 +7,6 @@ set title "Stats :queue_line_a"
 plot 'prcc.0002' u 1:2:7:8 t 'Avg' w errorbars, 'prcc.0002' u 1:6 t 'Min' w l, 'prcc.0002' u 1:5 t 'Max' w l
 set title "Stats :queue_line_b"
 plot 'prcc.0003' u 1:2:7:8 t 'Avg' w errorbars, 'prcc.0003' u 1:6 t 'Min' w l, 'prcc.0003' u 1:5 t 'Max' w l
+set title "Stats :flow_trucks"
+plot 'prcc.0004' u 1:2:7:8 t 'Avg' w errorbars, 'prcc.0004' u 1:6 t 'Min' w l, 'prcc.0004' u 1:5 t 'Max' w l
 exit
