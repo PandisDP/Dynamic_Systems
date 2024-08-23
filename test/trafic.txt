@@ -5,10 +5,10 @@ $Initial_conditions
 trucks_init=   10 5 10 15 $U;
 percentage_dis= 50 30 50 90 $U;
 distance_speed= 2 2 6 10 $U;
-flow_left= 10 10 50 100 $U;
-flow_right= 10 10 50 100 $U;
-flow_up= 20 20 75 150 $U;
-flow_down= 20 20 75 150 $U;
+flow_left= 1 1 10 50 $U;
+flow_right= 1 1 10 50 $U;
+flow_up= 5 1 10 50 $U;
+flow_down= 5 1 10 50 $U;
 percentage_minimum_dist= 0.1 0.1 0.3 0.5 $U;
 
 w1 =0;
@@ -16,13 +16,14 @@ $Equations
 trucks_in = w1;
 queue_line_a = w1;
 queue_line_b = w1;
+flow_trucks   = w1;
 
 $StartTime 0.0          // Simulation initial time
 $StopTime  3600	       // Simulation stop time
 $timestep  0.1	       // Timestep, usuallyy between 0.1 and 0.0001	
 $timefigs  1		       // To save data for figures 
  
-$plot trucks_in queue_line_a queue_line_b;
+$plot trucks_in queue_line_a queue_line_b flow_trucks ;
 
 //$Method $BSStepRational          // Bulirsch-Stoer Rational Function Extrapolation
 //$Method $BSStepPolyy		   // Bulirsch-Stoer Polyynomial Extrapolation
